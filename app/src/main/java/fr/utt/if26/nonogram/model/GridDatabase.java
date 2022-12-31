@@ -45,11 +45,11 @@ public abstract class GridDatabase extends RoomDatabase {
                 gridDAO.deleteAllGrids();
 
                 gridDAO.insert(new Grid(0, new Boolean[][]{
-                        new Boolean[] {false, false, false, true, false},
+                        new Boolean[] {false, false, true, true, false},
                         new Boolean[] {false, true, false, false, true},
-                        new Boolean[] {false, false, true, false, false},
-                        new Boolean[] {true, false, false, false, false},
-                        new Boolean[] {false, false, true, false, false}
+                        new Boolean[] {false, false, true, true, false},
+                        new Boolean[] {true, true, false, true, false},
+                        new Boolean[] {true, true, true, true, true}
                 }));
             });
         }

@@ -16,21 +16,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_home_black_24dp" />
+            app:srcCompat="@drawable/ic_home_black_24dp"
+            android:contentDescription="@string/heart_description" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_home_black_24dp" />
+            app:srcCompat="@drawable/ic_home_black_24dp"
+            android:contentDescription="@string/heart_description" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_home_black_24dp" />
+            app:srcCompat="@drawable/ic_home_black_24dp"
+            android:contentDescription="@string/heart_description" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,5 +73,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="34sp" />
 
 </LinearLayout>

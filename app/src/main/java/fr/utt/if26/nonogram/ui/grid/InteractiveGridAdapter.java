@@ -12,13 +12,16 @@ import java.util.List;
 
 import fr.utt.if26.nonogram.model.Grid;
 
-public class GridAdapter extends BaseAdapter {
+public class InteractiveGridAdapter extends BaseAdapter {
     private final Context context;
-    private final Boolean[][] gridContent; //TODO Correct with live data or ???
+    private final Boolean[][] gridContent;
+    private final View.OnClickListener listener;
+    private final List<Button> buttonList = new ArrayList<>();
 
-    public GridAdapter(Context context, Grid grid) {
+    public InteractiveGridAdapter(Context context, Grid grid, View.OnClickListener listener) {
         this.context = context;
         this.gridContent = grid.getGrid();
+        this.listener = listener;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return buttonList.get(i);
     }
 
     @Override
@@ -40,15 +43,23 @@ public class GridAdapter extends BaseAdapter {
     public View getView(int index, View view, ViewGroup viewGroup) {
         Button button;
 
+        boolean caseFilled = gridContent[index % gridContent.length][index / gridContent.length];
+
         if (view == null) {
             button = new Button(context);
+            buttonList.add(button);
             button.setLayoutParams(new ViewGroup.LayoutParams(85, 85));
+            button.setOnClickListener(buttonView -> {
+                if (caseFilled) {
+                    button.setBackgroundColor(Color.BLUE);
+                }
+                listener.onClick(buttonView);
+            });
         } else {
             button = (Button) view;
         }
 
-        boolean caseFilled = gridContent[index % gridContent.length][index / gridContent.length];
-        button.setBackgroundColor(caseFilled ? Color.BLUE : Color.WHITE);
+        button.setBackgroundColor(Color.WHITE);
         return button;
     }
 }
