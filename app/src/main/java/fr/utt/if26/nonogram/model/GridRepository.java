@@ -5,6 +5,9 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class GridRepository {
     private final GridDAO gridDAO;
@@ -20,7 +23,16 @@ public class GridRepository {
         return grids;
     }
 
-    public void insert(Grid grid) {
-        GridDatabase.databaseWriteExecutor.execute(() -> gridDAO.insert(grid));
+    public long insert(Grid grid) {
+        Callable<Long> insertCallable = () -> gridDAO.insert(grid);
+        long rowId = 0;
+
+        Future<Long> future = GridDatabase.databaseWriteExecutor.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException | ExecutionException e1) {
+            e1.printStackTrace();
+        }
+        return rowId;
     }
 }

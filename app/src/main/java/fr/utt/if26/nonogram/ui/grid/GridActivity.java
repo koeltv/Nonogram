@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
+import java.util.Random;
 
 import fr.utt.if26.nonogram.R;
 import fr.utt.if26.nonogram.databinding.ActivityGridBinding;
@@ -40,7 +41,10 @@ public class GridActivity extends AppCompatActivity {
         GridViewModel gridViewModel = new ViewModelProvider(this).get(GridViewModel.class);
 
         gridViewModel.getAllGrids().observe(this, grids -> {
-            currentGrid = grids.get(0);
+            //Grid selection
+            int id = getIntent().getIntExtra("id", -10);
+            if (id < 1) id = new Random().nextInt(grids.size()) + 1;
+            currentGrid = grids.get(id-1);
 
             GridView gridView = binding.grid;
             gridView.setNumColumns(currentGrid.getWidth());

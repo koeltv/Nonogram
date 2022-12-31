@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface GridDAO {
     @Insert
-    void insert(Grid grid);
+    long insert(Grid grid);
 
     @Delete
     void delete(Grid grid);

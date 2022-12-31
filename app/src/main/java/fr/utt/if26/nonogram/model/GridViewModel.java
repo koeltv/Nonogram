@@ -24,8 +24,8 @@ public class GridViewModel extends AndroidViewModel {
         return grids;
     }
 
-    public void insert(Grid grid) {
-        repository.insert(grid);
+    public long insert(Grid grid) {
+        return repository.insert(grid);
     }
 
     public Grid getRandomGrid() {

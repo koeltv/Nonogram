@@ -15,18 +15,25 @@ import java.util.Random;
 @TypeConverters({GridArrayConverter.class})
 public class Grid implements Serializable {
     @Ignore
-    private static int nextId = 0;
-
-    @Ignore
     private static final Random random = new Random();
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private final int id;
 
     private final Boolean[][] grid;
 
+    public Grid(int width, int height, int difficulty) {
+        id = 0;
+        grid = new Boolean[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                grid[x][y] = (random.nextInt(difficulty) + 1) < difficulty;
+            }
+        }
+    }
+
     Grid(int size) {
-        id = nextId++;
+        id = 0;
         grid = new Boolean[size][size];
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
