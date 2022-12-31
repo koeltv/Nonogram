@@ -1,6 +1,5 @@
 package fr.utt.if26.nonogram.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -22,11 +21,11 @@ public class Grid implements Serializable {
     @PrimaryKey
     private final int id;
 
-    private final boolean[][] grid;
+    private final Boolean[][] grid;
 
     Grid(int size) {
         id = nextId++;
-        grid = new boolean[size][size];
+        grid = new Boolean[size][size];
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 grid[x][y] = random.nextBoolean();
@@ -34,7 +33,7 @@ public class Grid implements Serializable {
         }
     }
 
-    Grid(int id, boolean[][] grid) {
+    public Grid(int id, Boolean[][] grid) {
         this.id = id;
         this.grid = grid;
     }
@@ -43,7 +42,7 @@ public class Grid implements Serializable {
         return id;
     }
 
-    public boolean[][] getGrid() {
+    public Boolean[][] getGrid() {
         return grid;
     }
 
@@ -79,5 +78,13 @@ public class Grid implements Serializable {
             lineCounts.add(currentSuite);
         }
         return lineCounts;
+    }
+
+    public int getWidth() {
+        return grid.length;
+    }
+
+    public int getHeight() {
+        return grid[0].length;
     }
 }

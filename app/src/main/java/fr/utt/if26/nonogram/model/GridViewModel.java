@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.Random;
 
 public class GridViewModel extends AndroidViewModel {
     private final GridRepository repository;
@@ -19,11 +20,16 @@ public class GridViewModel extends AndroidViewModel {
         grids = repository.getAllGrids();
     }
 
-    LiveData<List<Grid>> getAllGrids() {
+    public LiveData<List<Grid>> getAllGrids() {
         return grids;
     }
 
     public void insert(Grid grid) {
         repository.insert(grid);
+    }
+
+    public Grid getRandomGrid() {
+        List<Grid> gridList = grids.getValue();
+        return gridList != null ? gridList.get(new Random().nextInt(gridList.size())) : null;
     }
 }

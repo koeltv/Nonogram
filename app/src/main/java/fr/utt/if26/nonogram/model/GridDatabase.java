@@ -2,9 +2,11 @@ package fr.utt.if26.nonogram.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,10 +28,30 @@ public abstract class GridDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             GridDatabase.class,
                             "grid_database"
-                    ).build();
+                    ).addCallback(populateOnCreate).build();
                 }
             }
         }
         return INSTANCE;
     }
+
+    private static final RoomDatabase.Callback populateOnCreate = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+
+            databaseWriteExecutor.execute(() -> {
+                GridDAO gridDAO = INSTANCE.gridDAO();
+                gridDAO.deleteAllGrids();
+
+                gridDAO.insert(new Grid(0, new Boolean[][]{
+                        new Boolean[] {false, false, false, true, false},
+                        new Boolean[] {false, true, false, false, true},
+                        new Boolean[] {false, false, true, false, false},
+                        new Boolean[] {true, false, false, false, false},
+                        new Boolean[] {false, false, true, false, false}
+                }));
+            });
+        }
+    };
 }

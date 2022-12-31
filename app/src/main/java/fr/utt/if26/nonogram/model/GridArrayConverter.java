@@ -9,13 +9,13 @@ import java.lang.reflect.Type;
 
 public class GridArrayConverter {
     @TypeConverter
-    public static boolean[][] fromString(String string) {
+    public static Boolean[][] fromString(String string) {
         Type arrayType = new TypeToken<Boolean[][]>() {}.getType();
         return new Gson().fromJson(string, arrayType);
     }
 
     @TypeConverter
-    public static String fromDoubleArray(boolean[][] array) {
+    public static String fromDoubleArray(Boolean[][] array) {
         return new Gson().toJson(array);
     }
 }
