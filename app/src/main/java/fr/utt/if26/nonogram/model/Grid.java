@@ -7,6 +7,8 @@ import androidx.room.TypeConverters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 @Entity(tableName = "grid")
@@ -46,16 +48,22 @@ public class Grid implements Serializable {
         return grid;
     }
 
-    public ArrayList<ArrayList<Integer>> getColumnNumbers() {
-        ArrayList<ArrayList<Integer>> columnCounts = new ArrayList<>();
+    public List<List<Integer>> getColumnNumbers() {
+        List<List<Integer>> columnCounts = new ArrayList<>();
         for (int x = 0; x < grid.length; x++) {
-            ArrayList<Integer> currentSuite = new ArrayList<>();
+            LinkedList<Integer> currentSuite = new LinkedList<>();
             currentSuite.add(0);
+            boolean emptyCaseEncountered = false;
             for (int y = 0; y < grid.length; y++) {
                 if (grid[x][y]) {
-                    currentSuite.set(currentSuite.size()-1, currentSuite.get(currentSuite.size()-1) + 1);
-                } else {
-                    currentSuite.add(0);
+                    if (emptyCaseEncountered) {
+                        currentSuite.add(1);
+                        emptyCaseEncountered = false;
+                    } else {
+                        currentSuite.addLast(currentSuite.pollLast() + 1);
+                    }
+                } else if (currentSuite.getLast() != 0){
+                    emptyCaseEncountered = true;
                 }
             }
             columnCounts.add(currentSuite);
@@ -63,16 +71,22 @@ public class Grid implements Serializable {
         return columnCounts;
     }
 
-    public ArrayList<ArrayList<Integer>> getLineNumbers() {
-        ArrayList<ArrayList<Integer>> lineCounts = new ArrayList<>();
+    public List<List<Integer>> getLineNumbers() {
+        List<List<Integer>> lineCounts = new ArrayList<>();
         for (int y = 0; y < grid.length; y++) {
-            ArrayList<Integer> currentSuite = new ArrayList<>();
+            LinkedList<Integer> currentSuite = new LinkedList<>();
             currentSuite.add(0);
+            boolean emptyCaseEncountered = false;
             for (int x = 0; x < grid.length; x++) {
                 if (grid[x][y]) {
-                    currentSuite.set(currentSuite.size()-1, currentSuite.get(currentSuite.size()-1) + 1);
-                } else {
-                    currentSuite.add(0);
+                    if (emptyCaseEncountered) {
+                        currentSuite.add(1);
+                        emptyCaseEncountered = false;
+                    } else {
+                        currentSuite.addLast(currentSuite.pollLast() + 1);
+                    }
+                } else if (currentSuite.getLast() != 0){
+                    emptyCaseEncountered = true;
                 }
             }
             lineCounts.add(currentSuite);

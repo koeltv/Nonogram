@@ -2,9 +2,14 @@ package fr.utt.if26.nonogram.ui.grid;
 
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.utt.if26.nonogram.databinding.ActivityGridBinding;
 import fr.utt.if26.nonogram.model.Grid;
@@ -33,6 +38,29 @@ public class GridActivity extends AppCompatActivity {
 
             GridAdapter adapter = new GridAdapter(this, gridViewModel);
             gridView.setAdapter(adapter);
+
+            LinearLayout leftRow = binding.leftRow;
+            for (List<Integer> line : currentGrid.getLineNumbers()) {
+                LinearLayout lineLayout = new LinearLayout(this);
+                for (Integer value : line) {
+                    TextView textView = new TextView(this);
+                    textView.setText(value.toString());
+                    lineLayout.addView(textView);
+                }
+                leftRow.addView(lineLayout);
+            }
+
+            LinearLayout topRow = binding.topRow;
+            for (List<Integer> line : currentGrid.getColumnNumbers()) {
+                LinearLayout lineLayout = new LinearLayout(this);
+                lineLayout.setOrientation(LinearLayout.VERTICAL);
+                for (Integer value : line) {
+                    TextView textView = new TextView(this);
+                    textView.setText(value.toString());
+                    lineLayout.addView(textView);
+                }
+                topRow.addView(lineLayout);
+            }
 
 //            GridViewModel gridViewModel = new ViewModelProvider(this).get(GridViewModel.class);
 //            gridViewModel.getAllGrids().observe(this, adapter::submitList);
