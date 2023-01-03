@@ -3,10 +3,8 @@ package fr.utt.if26.nonogram;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,20 +22,20 @@ public class MainActivity extends AppCompatActivity {
 
     private static Account currentAccount;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        int currentAccountId = sharedPref.getInt(getString(R.string.saved_account_id), -1);
+        long currentAccountId = sharedPref.getLong(getString(R.string.saved_account_id), -1);
 
         if (currentAccountId != -1) {
+            System.out.println("Current ID: " + currentAccountId);
             AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
-            accountViewModel.getAllAccounts().observe(this, accounts -> currentAccount = accounts.stream()
-                    .filter(account -> account.getId() == currentAccountId)
-                    .findAny()
-                    .orElse(null));
+            accountViewModel.getAccountWithId(currentAccountId).observe(this, account -> {
+                if (account == null) selectAccount();
+                else currentAccount = account;
+            });
         }
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -91,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void selectAccount() {
         DialogueAccountBinding newAccountBinding = DialogueAccountBinding.inflate(getLayoutInflater());
 
@@ -106,35 +103,34 @@ public class MainActivity extends AppCompatActivity {
             );
 
             AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
-            accountViewModel.insert(account);
+            long accountId = accountViewModel.insert(account);
 
-            setCurrentAccount(account);
+            setCurrentAccount(accountId);
         });
         builder.setPositiveButton("Log In", (dialogInterface, i) -> {
             AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
-            accountViewModel.getAllAccounts().observe(this, accounts -> {
-                Account correspondingAccount = accounts.stream().filter(account ->
-                                account.getUsername().equals(newAccountBinding.editUsername.getText().toString())
-                                        && account.getPassHash().equals(Account.getSHA256(newAccountBinding.editPassword.getText().toString())))
-                        .findAny()
-                        .orElse(null);
-
-                if (correspondingAccount != null) {
-                    setCurrentAccount(correspondingAccount);
+            accountViewModel.getAccountWith(
+                    newAccountBinding.editUsername.getText().toString(),
+                    Account.getSHA256(newAccountBinding.editPassword.getText().toString())
+            ).observe(this, account -> {
+                if (account != null) { //TODO If the account doesn't exist
+                    setCurrentAccount(account.getId());
                 }
             });
         });
         builder.create().show();
     }
 
-    private void setCurrentAccount(Account account) {
-        currentAccount = account;
+    private void setCurrentAccount(long accountId) {
+        AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+        accountViewModel.getAccountWithId(accountId).observe(this, account -> currentAccount = account);
+
         SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
-        editor.putInt(getString(R.string.saved_account_id), account.getId());
+        editor.putLong(getString(R.string.saved_account_id), accountId);
         editor.apply();
     }
 
-    public <T extends AppCompatActivity> void playGridWithId(int id) {
+    public void playGridWithId(int id) {
         Intent intent = new Intent(MainActivity.this, GridActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);

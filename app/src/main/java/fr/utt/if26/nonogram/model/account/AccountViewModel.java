@@ -23,7 +23,15 @@ public class AccountViewModel extends AndroidViewModel {
         return accounts;
     }
 
-    public void insert(Account account) {
-        repository.insert(account);
+    public LiveData<Account> getAccountWithId(long id) {
+        return repository.getAccountWithId(id);
+    }
+
+    public long insert(Account account) {
+        return repository.insert(account);
+    }
+
+    public LiveData<Account> getAccountWith(String username, String hash) {
+        return repository.getAccountWith(username, hash);
     }
 }

@@ -23,6 +23,12 @@ public interface AccountDAO {
     @Query("SELECT * FROM account")
     LiveData<List<Account>> getAllAccounts();
 
+    @Query("SELECT * FROM account WHERE id = :id")
+    LiveData<Account> getAccountWithId(long id);
+
     @Query("DELETE FROM account")
     void deleteAllAccounts();
+
+    @Query("SELECT * FROM account WHERE username = :username AND passHash = :hash")
+    LiveData<Account> getAccountWith(String username, String hash);
 }

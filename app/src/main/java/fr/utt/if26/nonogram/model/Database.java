@@ -1,9 +1,8 @@
-package fr.utt.if26.nonogram.model.grid;
+package fr.utt.if26.nonogram.model;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -11,22 +10,29 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Grid.class}, version = 1)
-public abstract class GridDatabase extends RoomDatabase {
+import fr.utt.if26.nonogram.model.account.Account;
+import fr.utt.if26.nonogram.model.account.AccountDAO;
+import fr.utt.if26.nonogram.model.grid.Grid;
+import fr.utt.if26.nonogram.model.grid.GridDAO;
+
+@androidx.room.Database(entities = {Grid.class, Account.class}, version = 1)
+public abstract class Database extends RoomDatabase {
 
     public abstract GridDAO gridDAO();
 
-    private static volatile GridDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    public abstract AccountDAO accountDAO();
 
-    static GridDatabase getDatabase(final Context context) {
+    private static volatile Database INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    public static Database getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (GridDatabase.class) {
+            synchronized (Database.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(
                             context.getApplicationContext(),
-                            GridDatabase.class,
+                            Database.class,
                             "grid_database"
                     ).addCallback(populateOnCreate).build();
                 }
@@ -51,6 +57,11 @@ public abstract class GridDatabase extends RoomDatabase {
                         new Boolean[] {true, true, false, true, false},
                         new Boolean[] {true, true, true, true, true}
                 }));
+
+                AccountDAO accountDAO = INSTANCE.accountDAO();
+                accountDAO.deleteAllAccounts();
+
+                accountDAO.insert(new Account(0, "koeltv", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"));
             });
         }
     };
