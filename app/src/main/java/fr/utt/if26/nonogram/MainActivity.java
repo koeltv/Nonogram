@@ -1,28 +1,49 @@
 package fr.utt.if26.nonogram;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import fr.utt.if26.nonogram.databinding.ActivityMainBinding;
+import fr.utt.if26.nonogram.databinding.DialogueAccountBinding;
 import fr.utt.if26.nonogram.databinding.DialogueNewGridBinding;
-import fr.utt.if26.nonogram.model.Grid;
-import fr.utt.if26.nonogram.model.GridViewModel;
+import fr.utt.if26.nonogram.model.account.Account;
+import fr.utt.if26.nonogram.model.account.AccountViewModel;
+import fr.utt.if26.nonogram.model.grid.Grid;
+import fr.utt.if26.nonogram.model.grid.GridViewModel;
 import fr.utt.if26.nonogram.ui.grid.GridActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static Account currentAccount;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        int currentAccountId = sharedPref.getInt(getString(R.string.saved_account_id), -1);
+
+        if (currentAccountId != -1) {
+            AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+            accountViewModel.getAllAccounts().observe(this, accounts -> currentAccount = accounts.stream()
+                    .filter(account -> account.getId() == currentAccountId)
+                    .findAny()
+                    .orElse(null));
+        }
+
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //TODO Select a level from the database (with size displayed)
+        //TODO Select a level from the database (with size and difficulty displayed)
         binding.levelSelect.setOnClickListener(view -> {
 
         });
@@ -30,11 +51,10 @@ public class MainActivity extends AppCompatActivity {
         //Play a random level from the database
         binding.randomLevel.setOnClickListener(view -> playGridWithId(-1));
 
-        //TODO Create a new level with given difficulty and play it
         binding.customLevel.setOnClickListener(view -> createNewGridAndPlay());
 
-        //Configurable settings, may be removed or exchanged with player selection
-        binding.preferences.setOnClickListener(view -> {
+        //Select an account or create a new one
+        binding.selectAccount.setOnClickListener(view -> {
 
         });
     }
@@ -71,10 +91,52 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void selectAccount() {
+        DialogueAccountBinding newAccountBinding = DialogueAccountBinding.inflate(getLayoutInflater());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select account");
+        builder.setView(newAccountBinding.getRoot());
+        builder.setNegativeButton("Create account", (dialogInterface, i) -> {
+            Account account = Account.withPassword(
+                    0,
+                    newAccountBinding.editUsername.getText().toString(),
+                    newAccountBinding.editPassword.getText().toString()
+            );
+
+            AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+            accountViewModel.insert(account);
+
+            setCurrentAccount(account);
+        });
+        builder.setPositiveButton("Log In", (dialogInterface, i) -> {
+            AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+            accountViewModel.getAllAccounts().observe(this, accounts -> {
+                Account correspondingAccount = accounts.stream().filter(account ->
+                                account.getUsername().equals(newAccountBinding.editUsername.getText().toString())
+                                        && account.getPassHash().equals(Account.getSHA256(newAccountBinding.editPassword.getText().toString())))
+                        .findAny()
+                        .orElse(null);
+
+                if (correspondingAccount != null) {
+                    setCurrentAccount(correspondingAccount);
+                }
+            });
+        });
+        builder.create().show();
+    }
+
+    private void setCurrentAccount(Account account) {
+        currentAccount = account;
+        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+        editor.putInt(getString(R.string.saved_account_id), account.getId());
+        editor.apply();
+    }
+
     public <T extends AppCompatActivity> void playGridWithId(int id) {
         Intent intent = new Intent(MainActivity.this, GridActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
     }
-
 }

@@ -10,7 +10,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.utt.if26.nonogram.model.Grid;
+import fr.utt.if26.nonogram.model.grid.Grid;
 
 public class InteractiveGridAdapter extends BaseAdapter {
     private final Context context;

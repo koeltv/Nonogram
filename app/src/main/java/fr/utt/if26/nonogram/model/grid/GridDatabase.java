@@ -1,4 +1,4 @@
-package fr.utt.if26.nonogram.model;
+package fr.utt.if26.nonogram.model.grid;
 
 import android.content.Context;
 

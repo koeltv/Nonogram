@@ -17,8 +17,8 @@ import java.util.Random;
 
 import fr.utt.if26.nonogram.R;
 import fr.utt.if26.nonogram.databinding.ActivityGridBinding;
-import fr.utt.if26.nonogram.model.Grid;
-import fr.utt.if26.nonogram.model.GridViewModel;
+import fr.utt.if26.nonogram.model.grid.Grid;
+import fr.utt.if26.nonogram.model.grid.GridViewModel;
 
 public class GridActivity extends AppCompatActivity {
 
