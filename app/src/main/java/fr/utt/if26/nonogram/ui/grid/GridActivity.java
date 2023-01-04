@@ -87,9 +87,6 @@ public class GridActivity extends AppCompatActivity {
 
             populateLeftRow();
             populateTopRow();
-
-//            GridViewModel gridViewModel = new ViewModelProvider(this).get(GridViewModel.class);
-//            gridViewModel.getAllGrids().observe(this, adapter::submitList);
         });
     }
 

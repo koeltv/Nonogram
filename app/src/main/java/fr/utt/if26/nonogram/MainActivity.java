@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
-        //TODO Select a level from the database (with size and difficulty displayed)
+        //Select a level from the database (with size and difficulty displayed)
         binding.levelSelect.setOnClickListener(view -> selectGridAndPlay());
 
         //Play a random level from the database
         binding.randomLevel.setOnClickListener(view -> playGridWithId(-1));
 
+        //Create a new grid with given settings and play
         binding.customLevel.setOnClickListener(view -> createNewGridAndPlay());
 
         //Select an account or create a new one
@@ -119,8 +120,10 @@ public class MainActivity extends AppCompatActivity {
                     newAccountBinding.editUsername.getText().toString(),
                     Account.getSHA256(newAccountBinding.editPassword.getText().toString())
             ).observe(this, account -> {
-                if (account != null) { //TODO If the account doesn't exist
+                if (account != null) {
                     setCurrentAccount(account.getId());
+                } else {
+                    Toast.makeText(this, newAccountBinding.editUsername.getText().toString() + " incorrect, check the password", Toast.LENGTH_SHORT).show();
                 }
             });
         });

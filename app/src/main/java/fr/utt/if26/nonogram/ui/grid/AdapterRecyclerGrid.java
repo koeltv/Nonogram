@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fr.utt.if26.nonogram.R;
-import fr.utt.if26.nonogram.model.grid.Grid;
 
-public class AdapterRecyclerGrid extends ListAdapter<Grid, AdapterRecyclerGrid.ModuleViewHolder> {
-    public AdapterRecyclerGrid(@NonNull DiffUtil.ItemCallback<Grid> diffCallback) {
+public class AdapterRecyclerGrid extends ListAdapter<GridCompletion, AdapterRecyclerGrid.ModuleViewHolder> {
+    public AdapterRecyclerGrid(@NonNull DiffUtil.ItemCallback<GridCompletion> diffCallback) {
         super(diffCallback);
     }
 
@@ -28,7 +27,7 @@ public class AdapterRecyclerGrid extends ListAdapter<Grid, AdapterRecyclerGrid.M
 
     @Override
     public void onBindViewHolder(@NonNull ModuleViewHolder holder, int position) {
-        Grid current = getItem(position);
+        GridCompletion current = getItem(position);
         holder.bind(current);
     }
 
@@ -48,33 +47,34 @@ public class AdapterRecyclerGrid extends ListAdapter<Grid, AdapterRecyclerGrid.M
             this.gridCompleted = itemView.findViewById(R.id.gridCompleted);
         }
 
-        void bind(Grid grid) {
+        void bind(GridCompletion gridCompletion) {
             layout.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), GridActivity.class);
-                intent.putExtra("id", grid.getGridId());
+                intent.putExtra("id", gridCompletion.getGridId());
                 itemView.getContext().startActivity(intent);
             });
-            gridId.setText(String.valueOf(grid.getGridId()));
-            gridDimensions.setText(itemView.getContext().getString(R.string.written_dimensions, grid.getWidth(), grid.getHeight()));
-            gridDifficulty.setText(String.valueOf(grid.getDifficulty()));
-            gridCompleted.setText(itemView.getContext().getString(R.string.yes));
+            gridId.setText(String.valueOf(gridCompletion.getGridId()));
+            gridDimensions.setText(itemView.getContext().getString(R.string.written_dimensions, gridCompletion.getWidth(), gridCompletion.getHeight()));
+            gridDifficulty.setText(String.valueOf(gridCompletion.getDifficulty()));
+            gridCompleted.setText(itemView.getContext().getString(gridCompletion.isCompleted() ? R.string.yes : R.string.no));
         }
 
         static ModuleViewHolder create(ViewGroup parent) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.grid_item, parent, false);
+
             return new ModuleViewHolder(view);
         }
     }
 
-    static class ModuleDiff extends DiffUtil.ItemCallback<Grid> {
+    static class ModuleDiff extends DiffUtil.ItemCallback<GridCompletion> {
         @Override
-        public boolean areItemsTheSame(@NonNull Grid oldItem, @NonNull Grid newItem) {
+        public boolean areItemsTheSame(@NonNull GridCompletion oldItem, @NonNull GridCompletion newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Grid oldItem, @NonNull Grid newItem) {
+        public boolean areContentsTheSame(@NonNull GridCompletion oldItem, @NonNull GridCompletion newItem) {
             return oldItem.equals(newItem);
         }
     }
