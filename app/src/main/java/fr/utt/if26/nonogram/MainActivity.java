@@ -17,6 +17,7 @@ import fr.utt.if26.nonogram.model.account.AccountViewModel;
 import fr.utt.if26.nonogram.model.grid.Grid;
 import fr.utt.if26.nonogram.model.grid.GridViewModel;
 import fr.utt.if26.nonogram.ui.grid.GridActivity;
+import fr.utt.if26.nonogram.ui.grid.GridListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //TODO Select a level from the database (with size and difficulty displayed)
-        binding.levelSelect.setOnClickListener(view -> {
-
-        });
+        binding.levelSelect.setOnClickListener(view -> selectGridAndPlay());
 
         //Play a random level from the database
         binding.randomLevel.setOnClickListener(view -> playGridWithId(-1));
@@ -52,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
         binding.customLevel.setOnClickListener(view -> createNewGridAndPlay());
 
         //Select an account or create a new one
-        binding.selectAccount.setOnClickListener(view -> {
+        binding.selectAccount.setOnClickListener(view -> selectAccount());
+    }
 
-        });
+    private void selectGridAndPlay() {
+        Intent intent = new Intent(MainActivity.this, GridListActivity.class);
+        startActivity(intent);
     }
 
     public void createNewGridAndPlay() {
