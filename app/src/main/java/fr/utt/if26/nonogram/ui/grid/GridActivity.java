@@ -52,7 +52,7 @@ public class GridActivity extends AppCompatActivity {
             GridView gridView = binding.grid;
             gridView.setNumColumns(currentGrid.getWidth());
 
-            View.OnClickListener listener = (View.OnClickListener) view -> {
+            View.OnClickListener listener = view -> {
                 Button button = (Button) view;
                 //The button was clicked, trigger action depending on whether it was correct or not
 

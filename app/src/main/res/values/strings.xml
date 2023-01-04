@@ -12,5 +12,11 @@
     <string name="greeting">Hello %1$s!</string>
     <string name="id">ID</string>
     <string name="dimensions">Dimensions</string>
+    <string name="written_dimensions">%1$dx%2$d</string>
     <string name="completed">Completed</string>
+    <string name="yes">YES</string>
+    <string name="my_username">my_username</string>
+    <string name="password">Password</string>
+    <string name="hidden_password">********</string>
+    <string name="username">Username</string>
 </resources>

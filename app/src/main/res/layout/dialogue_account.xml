@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
-        android:text="Username"
+        android:text="@string/username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editUsername" />
 
@@ -23,10 +23,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="my_username"
+        android:hint="@string/my_username"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="username" />
 
     <TextView
         android:id="@+id/textView3"
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
-        android:text="Password"
+        android:text="@string/password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editPassword" />
 
@@ -45,8 +46,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="********"
+        android:hint="@string/hidden_password"
         android:inputType="textPassword"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/editUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/editUsername"
+        android:autofillHints="password" />
 </androidx.constraintlayout.widget.ConstraintLayout>

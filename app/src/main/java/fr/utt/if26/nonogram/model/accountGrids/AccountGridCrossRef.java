@@ -4,8 +4,8 @@ import androidx.room.Entity;
 
 @Entity(tableName = "account_grid", primaryKeys = {"id", "gridId"})
 public class AccountGridCrossRef {
-    public long id;
-    public long gridId;
+    public final long id;
+    public final long gridId;
 
     public AccountGridCrossRef(long id, long gridId) {
         this.id = id;

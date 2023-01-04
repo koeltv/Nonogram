@@ -12,7 +12,6 @@ import java.util.List;
 
 import fr.utt.if26.nonogram.model.accountGrids.AccountGridCrossRef;
 import fr.utt.if26.nonogram.model.accountGrids.AccountWithGrids;
-import fr.utt.if26.nonogram.model.grid.Grid;
 
 @Dao
 public interface AccountDAO {

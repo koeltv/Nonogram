@@ -37,17 +37,6 @@ public class Grid implements Serializable {
         }
     }
 
-    Grid(int size, int difficulty) {
-        gridId = 0;
-        this.difficulty = difficulty;
-        grid = new Boolean[size][size];
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                grid[x][y] = random.nextBoolean();
-            }
-        }
-    }
-
     public Grid(int gridId, int difficulty, Boolean[][] grid) {
         this.gridId = gridId;
         this.difficulty = difficulty;

@@ -55,9 +55,9 @@ public class AdapterRecyclerGrid extends ListAdapter<Grid, AdapterRecyclerGrid.M
                 itemView.getContext().startActivity(intent);
             });
             gridId.setText(String.valueOf(grid.getGridId()));
-            gridDimensions.setText(grid.getWidth() + "x" + grid.getHeight());
+            gridDimensions.setText(itemView.getContext().getString(R.string.written_dimensions, grid.getWidth(), grid.getHeight()));
             gridDifficulty.setText(String.valueOf(grid.getDifficulty()));
-            gridCompleted.setText("Yes");
+            gridCompleted.setText(itemView.getContext().getString(R.string.yes));
         }
 
         static ModuleViewHolder create(ViewGroup parent) {
