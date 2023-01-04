@@ -18,12 +18,12 @@ public class Grid implements Serializable {
     private static final Random random = new Random();
 
     @PrimaryKey(autoGenerate = true)
-    private final int id;
+    private final int gridId;
 
     private final Boolean[][] grid;
 
     public Grid(int width, int height, int difficulty) {
-        id = 0;
+        gridId = 0;
         grid = new Boolean[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -33,7 +33,7 @@ public class Grid implements Serializable {
     }
 
     Grid(int size) {
-        id = 0;
+        gridId = 0;
         grid = new Boolean[size][size];
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
@@ -42,13 +42,13 @@ public class Grid implements Serializable {
         }
     }
 
-    public Grid(int id, Boolean[][] grid) {
-        this.id = id;
+    public Grid(int gridId, Boolean[][] grid) {
+        this.gridId = gridId;
         this.grid = grid;
     }
 
-    public int getId() {
-        return id;
+    public int getGridId() {
+        return gridId;
     }
 
     public Boolean[][] getGrid() {

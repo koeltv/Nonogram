@@ -20,7 +20,7 @@ import fr.utt.if26.nonogram.ui.grid.GridActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static Account currentAccount;
+    public static Account currentAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

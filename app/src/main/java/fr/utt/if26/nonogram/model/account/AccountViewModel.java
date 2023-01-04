@@ -8,6 +8,9 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import fr.utt.if26.nonogram.model.accountGrids.AccountGridCrossRef;
+import fr.utt.if26.nonogram.model.accountGrids.AccountWithGrids;
+
 public class AccountViewModel extends AndroidViewModel {
     private final AccountRepository repository;
 
@@ -33,5 +36,13 @@ public class AccountViewModel extends AndroidViewModel {
 
     public LiveData<Account> getAccountWith(String username, String hash) {
         return repository.getAccountWith(username, hash);
+    }
+
+    public LiveData<AccountWithGrids> getGridsOfAccountWithId(long id) {
+        return repository.getGridsOfAccountWithId(id);
+    }
+
+    public void insertAccountGridReference(AccountGridCrossRef accountGridCrossRef) {
+        repository.insertAccountGridReference(accountGridCrossRef);
     }
 }

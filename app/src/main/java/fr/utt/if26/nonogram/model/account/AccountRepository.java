@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import fr.utt.if26.nonogram.model.Database;
+import fr.utt.if26.nonogram.model.accountGrids.AccountGridCrossRef;
+import fr.utt.if26.nonogram.model.accountGrids.AccountWithGrids;
 
 public class AccountRepository {
     private final AccountDAO accountDAO;
@@ -44,5 +46,13 @@ public class AccountRepository {
 
     public LiveData<Account> getAccountWith(String username, String hash) {
         return accountDAO.getAccountWith(username, hash);
+    }
+
+    public LiveData<AccountWithGrids> getGridsOfAccountWithId(long id) {
+        return accountDAO.getGridsOfAccountWithId(id);
+    }
+
+    public void insertAccountGridReference(AccountGridCrossRef accountGridCrossRef) {
+        Database.databaseWriteExecutor.submit(() -> accountDAO.insertAccountGridReference(accountGridCrossRef));
     }
 }

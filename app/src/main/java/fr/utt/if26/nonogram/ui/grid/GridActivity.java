@@ -15,8 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.List;
 import java.util.Random;
 
+import fr.utt.if26.nonogram.MainActivity;
 import fr.utt.if26.nonogram.R;
 import fr.utt.if26.nonogram.databinding.ActivityGridBinding;
+import fr.utt.if26.nonogram.model.account.AccountViewModel;
+import fr.utt.if26.nonogram.model.accountGrids.AccountGridCrossRef;
 import fr.utt.if26.nonogram.model.grid.Grid;
 import fr.utt.if26.nonogram.model.grid.GridViewModel;
 
@@ -76,6 +79,9 @@ public class GridActivity extends AppCompatActivity {
 
                 if (gridIsComplete()) {
                     showAndBlock("You Win !");
+
+                    AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+                    accountViewModel.insertAccountGridReference(new AccountGridCrossRef(MainActivity.currentAccount.getId(), currentGrid.getGridId()));
                 }
             };
 

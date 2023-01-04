@@ -12,10 +12,11 @@ import java.util.concurrent.Executors;
 
 import fr.utt.if26.nonogram.model.account.Account;
 import fr.utt.if26.nonogram.model.account.AccountDAO;
+import fr.utt.if26.nonogram.model.accountGrids.AccountGridCrossRef;
 import fr.utt.if26.nonogram.model.grid.Grid;
 import fr.utt.if26.nonogram.model.grid.GridDAO;
 
-@androidx.room.Database(entities = {Grid.class, Account.class}, version = 1)
+@androidx.room.Database(entities = {Grid.class, Account.class, AccountGridCrossRef.class}, version = 1)
 public abstract class Database extends RoomDatabase {
 
     public abstract GridDAO gridDAO();

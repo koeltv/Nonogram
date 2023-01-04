@@ -5,9 +5,14 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
+
+import fr.utt.if26.nonogram.model.accountGrids.AccountGridCrossRef;
+import fr.utt.if26.nonogram.model.accountGrids.AccountWithGrids;
+import fr.utt.if26.nonogram.model.grid.Grid;
 
 @Dao
 public interface AccountDAO {
@@ -31,4 +36,11 @@ public interface AccountDAO {
 
     @Query("SELECT * FROM account WHERE username = :username AND passHash = :hash")
     LiveData<Account> getAccountWith(String username, String hash);
+
+    @Transaction
+    @Query("SELECT * FROM account WHERE id = :id")
+    LiveData<AccountWithGrids> getGridsOfAccountWithId(long id);
+
+    @Insert
+    void insertAccountGridReference(AccountGridCrossRef accountGridCrossRef);
 }
