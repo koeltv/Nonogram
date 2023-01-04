@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center">
 
         <ImageView
@@ -16,45 +16,49 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_home_black_24dp"
-            android:contentDescription="@string/heart_description" />
+            android:contentDescription="@string/heart_description"
+            app:srcCompat="@drawable/heart" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_home_black_24dp"
-            android:contentDescription="@string/heart_description" />
+            android:contentDescription="@string/heart_description"
+            app:srcCompat="@drawable/heart" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_home_black_24dp"
-            android:contentDescription="@string/heart_description" />
+            android:contentDescription="@string/heart_description"
+            app:srcCompat="@drawable/heart" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/topRow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/topRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
             android:id="@+id/leftRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:orientation="vertical" />
+            android:layout_marginEnd="5dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/grid"
+            app:layout_constraintTop_toBottomOf="@id/topRow" />
 
         <GridView
             android:id="@+id/grid"
@@ -64,9 +68,12 @@
             android:background="@color/black"
             android:horizontalSpacing="33dp"
             android:stretchMode="none"
-            android:verticalSpacing="3dp" />
+            android:verticalSpacing="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topRow"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch1"

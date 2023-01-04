@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static Account currentAccount;
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,17 +32,19 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         long currentAccountId = sharedPref.getLong(getString(R.string.saved_account_id), -1);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         if (currentAccountId != -1) {
-            System.out.println("Current ID: " + currentAccountId);
             AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
             accountViewModel.getAccountWithId(currentAccountId).observe(this, account -> {
                 if (account == null) selectAccount();
                 else currentAccount = account;
+
+                binding.playerGreeting.setText(getString(R.string.greeting, currentAccount.getUsername()));
             });
         }
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         //TODO Select a level from the database (with size and difficulty displayed)
         binding.levelSelect.setOnClickListener(view -> selectGridAndPlay());
@@ -125,7 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setCurrentAccount(long accountId) {
         AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
-        accountViewModel.getAccountWithId(accountId).observe(this, account -> currentAccount = account);
+        accountViewModel.getAccountWithId(accountId).observe(this, account -> {
+            currentAccount = account;
+            binding.playerGreeting.setText(getString(R.string.greeting, currentAccount.getUsername()));
+        });
 
         SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
         editor.putLong(getString(R.string.saved_account_id), accountId);

@@ -9,4 +9,8 @@
     <string name="new_level">New level</string>
     <string name="select_account">Select account</string>
     <string name="saved_account_id">SAVED_ACCOUNT_ID</string>
+    <string name="greeting">Hello %1$s!</string>
+    <string name="id">ID</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="completed">Completed</string>
 </resources>

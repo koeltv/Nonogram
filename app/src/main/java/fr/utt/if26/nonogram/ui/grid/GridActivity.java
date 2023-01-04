@@ -29,7 +29,7 @@ public class GridActivity extends AppCompatActivity {
 
     private Grid currentGrid;
 
-    private final int emptyHeartId = R.drawable.ic_dashboard_black_24dp;
+    private final int emptyHeartId = R.drawable.heart_empty;
 
     private int livesLeft;
 
@@ -72,9 +72,6 @@ public class GridActivity extends AppCompatActivity {
                             break;
 
                     }
-                    binding.imageView3.setImageResource(R.drawable.ic_dashboard_black_24dp);
-                } else { //Correct
-
                 }
 
                 if (gridIsComplete()) {
@@ -118,6 +115,7 @@ public class GridActivity extends AppCompatActivity {
             lineLayout.setOrientation(LinearLayout.VERTICAL);
             for (Integer value : line) {
                 TextView textView = new TextView(this);
+                textView.setPadding(35, 0, 35, 0);
                 textView.setText(String.valueOf(value));
                 lineLayout.addView(textView);
             }
@@ -131,6 +129,7 @@ public class GridActivity extends AppCompatActivity {
             LinearLayout lineLayout = new LinearLayout(this);
             for (Integer value : line) {
                 TextView textView = new TextView(this);
+                textView.setPadding(0, 20, 0, 20);
                 textView.setText(String.valueOf(value));
                 lineLayout.addView(textView);
             }
