@@ -1,7 +1,6 @@
 package fr.utt.if26.nonogram.model.grid;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -11,14 +10,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Entity(tableName = "grid")
 @TypeConverters({GridArrayConverter.class})
 public class Grid implements Serializable {
-    @Ignore
-    private static final Random random = new Random();
-
     @PrimaryKey(autoGenerate = true)
     private final int gridId;
 
@@ -32,7 +27,7 @@ public class Grid implements Serializable {
         grid = new Boolean[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                grid[x][y] = (random.nextInt(difficulty) + 1) < difficulty;
+                grid[x][y] = Math.random() >= ((double) (difficulty - 1) / 2 + 2) / 10;
             }
         }
     }
@@ -65,7 +60,7 @@ public class Grid implements Serializable {
                     } else {
                         currentSuite.addLast(currentSuite.pollLast() + 1);
                     }
-                } else if (currentSuite.getLast() != 0){
+                } else if (currentSuite.getLast() != 0) {
                     emptyCaseEncountered = true;
                 }
             }
@@ -88,7 +83,7 @@ public class Grid implements Serializable {
                     } else {
                         currentSuite.addLast(currentSuite.pollLast() + 1);
                     }
-                } else if (currentSuite.getLast() != 0){
+                } else if (currentSuite.getLast() != 0) {
                     emptyCaseEncountered = true;
                 }
             }

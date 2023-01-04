@@ -122,7 +122,7 @@ public class GridActivity extends AppCompatActivity {
             lineLayout.setOrientation(LinearLayout.VERTICAL);
             for (Integer value : line) {
                 TextView textView = new TextView(this);
-                textView.setPadding(35, 0, 35, 0);
+                textView.setPadding(32, 0, 32, 0);
                 textView.setText(String.valueOf(value));
                 lineLayout.addView(textView);
             }
