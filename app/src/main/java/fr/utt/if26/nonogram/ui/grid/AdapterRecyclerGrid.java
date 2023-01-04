@@ -50,7 +50,7 @@ public class AdapterRecyclerGrid extends ListAdapter<GridCompletion, AdapterRecy
         void bind(GridCompletion gridCompletion) {
             layout.setOnClickListener(view -> {
                 Intent intent = new Intent(itemView.getContext(), GridActivity.class);
-                intent.putExtra("id", gridCompletion.getGridId());
+                intent.putExtra("id", (int) gridCompletion.getGridId());
                 itemView.getContext().startActivity(intent);
             });
             gridId.setText(String.valueOf(gridCompletion.getGridId()));

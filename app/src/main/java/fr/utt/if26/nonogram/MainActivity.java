@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public void createNewGridAndPlay() {
         DialogueNewGridBinding newGridBinding = DialogueNewGridBinding.inflate(getLayoutInflater());
         newGridBinding.colsPicker.setMinValue(2);
-        newGridBinding.colsPicker.setMaxValue(15);
+        newGridBinding.colsPicker.setMaxValue(10);
         newGridBinding.colsPicker.setValue(5);
 
         newGridBinding.rowsPicker.setMinValue(2);
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(newGridBinding.getRoot());
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
             Grid grid = new Grid(
-                    newGridBinding.rowsPicker.getValue(),
                     newGridBinding.colsPicker.getValue(),
+                    newGridBinding.rowsPicker.getValue(),
                     newGridBinding.difficultyPicker.getValue()
             );
 

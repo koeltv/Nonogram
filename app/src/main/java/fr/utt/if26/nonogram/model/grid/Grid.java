@@ -57,7 +57,7 @@ public class Grid implements Serializable {
             LinkedList<Integer> currentSuite = new LinkedList<>();
             currentSuite.add(0);
             boolean emptyCaseEncountered = false;
-            for (int y = 0; y < grid.length; y++) {
+            for (int y = 0; y < grid[x].length; y++) {
                 if (grid[x][y]) {
                     if (emptyCaseEncountered) {
                         currentSuite.add(1);
@@ -76,7 +76,7 @@ public class Grid implements Serializable {
 
     public List<List<Integer>> getLineNumbers() {
         List<List<Integer>> lineCounts = new ArrayList<>();
-        for (int y = 0; y < grid.length; y++) {
+        for (int y = 0; y < grid[0].length; y++) {
             LinkedList<Integer> currentSuite = new LinkedList<>();
             currentSuite.add(0);
             boolean emptyCaseEncountered = false;

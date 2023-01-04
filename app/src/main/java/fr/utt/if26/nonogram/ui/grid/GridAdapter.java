@@ -20,7 +20,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return gridContent.length * gridContent.length;
+        return gridContent.length * gridContent[0].length;
     }
 
     @Override

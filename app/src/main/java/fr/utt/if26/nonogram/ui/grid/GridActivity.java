@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -24,6 +25,8 @@ import fr.utt.if26.nonogram.model.grid.Grid;
 import fr.utt.if26.nonogram.model.grid.GridViewModel;
 
 public class GridActivity extends AppCompatActivity {
+    private static final int CASE_SIZE = 85;
+    private static final int SPACING = 3;
 
     private ActivityGridBinding binding;
 
@@ -47,10 +50,17 @@ public class GridActivity extends AppCompatActivity {
             //Grid selection
             int id = getIntent().getIntExtra("id", -10);
             if (id < 1) id = new Random().nextInt(grids.size()) + 1;
-            currentGrid = grids.get(id-1);
+            currentGrid = grids.get(id - 1);
 
             GridView gridView = binding.grid;
             gridView.setNumColumns(currentGrid.getWidth());
+
+            ViewGroup.LayoutParams layoutParams = gridView.getLayoutParams();
+            layoutParams.width = currentGrid.getWidth() * (CASE_SIZE + SPACING) - SPACING;
+            gridView.setLayoutParams(layoutParams);
+
+            gridView.setHorizontalSpacing(CASE_SIZE + SPACING);
+            gridView.setVerticalSpacing(SPACING);
 
             View.OnClickListener listener = view -> {
                 Button button = (Button) view;
@@ -70,7 +80,6 @@ public class GridActivity extends AppCompatActivity {
                             binding.imageView1.setImageResource(emptyHeartId);
                             showAndBlock("You Lose !");
                             break;
-
                     }
                 }
 
@@ -100,7 +109,8 @@ public class GridActivity extends AppCompatActivity {
             Button currentButton = ((Button) binding.grid.getItemAtPosition(i));
             if (currentButton == null) return false;
             int backgroundColor = ((ColorDrawable) currentButton.getBackground()).getColor();
-            if (currentGrid.getGrid()[i % currentGrid.getWidth()][i / currentGrid.getWidth()] && backgroundColor != Color.BLUE) return false;
+            if (currentGrid.getGrid()[i % currentGrid.getWidth()][i / currentGrid.getWidth()] && backgroundColor != Color.BLUE)
+                return false;
         }
         return true;
     }
@@ -126,7 +136,7 @@ public class GridActivity extends AppCompatActivity {
             LinearLayout lineLayout = new LinearLayout(this);
             for (Integer value : line) {
                 TextView textView = new TextView(this);
-                textView.setPadding(0, 20, 0, 20);
+                textView.setPadding(0, 18, 0, 18);
                 textView.setText(String.valueOf(value));
                 lineLayout.addView(textView);
             }
